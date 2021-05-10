@@ -12,3 +12,16 @@ Diffused Round Lens 29mm Long Lead +300pcs Resistors (for DC 6-12V) Included,Lig
 
 From the Mood Lights file, you can set the pin numbers for each red green and blue. I do haave plans to just have linked shift registars to control more than 4 LEDS (12 pins), 
 But that is for another time. At the moment I only have two LEDs in the file.
+
+
+What a majority of my time I spent on this was the many many void functions that do specific transitions, like hold_red or fade_in_blue or blue_to_green. This is because I wanted 
+to make the function programing as easy as it can be by creating all of the transistions I could possibly do. From my working example, there are still bugs as how it looks IRL, 
+but I did this such that I can explore as many concepts for creating functions.  
+
+
+
+I added two buttons to change the speed and pause of the fadeing and holding phases, I want to make them dials instead of buttons. Also it is sluggish to change on the fly.
+
+Please feel free to download and modify as you see fit, I really like to see intresting lighting functions that can be made from this. I will update this README as I add more features.
+
+-Matt
