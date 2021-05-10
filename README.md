@@ -15,7 +15,7 @@ But that is for another time. At the moment I only have two LEDs in the file.
 
 
 What a majority of my time I spent on this was the many many void functions that do specific transitions, like hold_red or fade_in_blue or blue_to_green. This is because I wanted 
-to make the function programing as easy as it can be by creating all of the transistions I could possibly do. From my working example, there are still bugs as how it looks IRL, 
+to make the function programing as easy as it can be by creating all of the transitions I could possibly do. From my working example, there are still bugs as how it looks IRL, 
 but I did this such that I can explore as many concepts for creating functions.  
 
 
