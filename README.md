@@ -25,6 +25,8 @@ I added two buttons to change the speed and pause of the fadeing and holding pha
 Please feel free to download and modify as you see fit, I really like to see intresting lighting functions that can be made from this. I will update this README as I add more features.
 
 EDIT 1 7/22/21
+
+
 It's been two months or so, and I spent more time on this project! I created the function called all_one_color() function to control all lights and fade all lights into a new color one light at a time. I'm really happy with this one. It is an recursive function that uses the last color as it's input and a if statment to make sure it's two different colors. 
 
 I also added a function called all_on_color_fade() which will fade out the colors and then fade in the new color instead of a smooth transistion.
