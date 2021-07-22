@@ -1,6 +1,7 @@
 
 //Matthew Domenick 
 //back of tv lights to make it look cool
+//left open ended such that you can fit your needs
 
 
 
@@ -8,8 +9,8 @@
 #include<Metro.h>
 
 
-int button_change_delay_multi = 2;
-int button_change_hold_time = 3;
+int button_change_delay_multi = 2; //PIN BUTTON FOR DELAY CONTROL
+int button_change_hold_time = 3; // PIN BUTTON FOR HOLD TIME CONTROL
 
 
 bool button_delay_state = false;
@@ -31,11 +32,11 @@ float fade_in_dim = 1;
 // 50 is  gentle lighting    0,1, 2, 3, 4, 5
 static int delay_array [] = {1,5,10,20,35,50};
 
-int delay_multi =  delay_array[4];
+int delay_multi =  delay_array[4]; // THE INITAL STATE IS SET HERE
 
 
 //controls the milliseconds used for fade out loops
-int fade_out_dim = 1;
+int fade_out_dim = 1; //LEAVE AT 1
 
 //variable that is counted up to or down to, # is in milli seconds *now* because of Metro
 int mirco_seconds = 255;
@@ -49,6 +50,7 @@ const int hold_array [] = {500, 1000, 2000, 3000, 4000, 8000};
 int hold_time = hold_array[2];
 
 
+// STRUCT USED TO KEEP TRACK OF LED PINS
 struct led
 {
   int r=0;
@@ -60,10 +62,28 @@ struct led
 
 
 
-//declare leds here
+//declare  ALL leds here, update if more or less is added, CURENTLY : 2
+int number_of_lights = 2;
 led LED1;
 
 led LED2;
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+// used for all one color()
+int r = 1;
+
 
 // fades out all led colors
 void fade_out(led LED)
@@ -1817,6 +1837,8 @@ void color(led LED1)
 
 }
 
+// this very basic function is how a lot if the more complex moods are made
+// color is the function name, LED# is the led you want to change, i the the color you want it to emmit
 void color(led LED1,int i)
 {
   
@@ -1825,7 +1847,7 @@ void color(led LED1,int i)
   
 
 
-//-------------------fade in led1
+//-------------------fade in led
   switch (i)
   {
     case 1:  
@@ -1861,7 +1883,7 @@ void color(led LED1,int i)
     
     
   }
-  //-------------------fade in led1
+  //-------------------fade in led
 
 
 
@@ -1869,7 +1891,7 @@ void color(led LED1,int i)
 
 
   
-  //-------------------fade out led1
+  //-------------------fade out led
   switch (i)
   {
     case 1:  
@@ -1905,7 +1927,7 @@ void color(led LED1,int i)
     
     
   }
-  //-------------------fade out led1
+  //-------------------fade out led
 
 
 }
@@ -1972,7 +1994,7 @@ second_light.LED = LED2;
 
 
 //update this int to be the total number of lights 
-int big_o = 2;
+int big_o = number_of_lights;
  
 
 // my_list is the number of lights being used, update to how many lights you need, this is also determines fade out array
@@ -2299,6 +2321,1038 @@ fade_out(LED2);
 
 
 
+//---------------------------------------------------------------------------------------------------------------------------all one color fade
+int all_one_color_fade(int i)
+{
+
+  int old_color = i; //old color
+  int new_color = floor(random(1,7)); // color randomized;
+  
+  // I want this function to be a superclass for functions to follow. where all leds are faded in and out from here
+  // struct for the number of lights , n is the color it was randomized, LED is it's LED pins
+struct light_list{
+  int n; // n is the current color for the light
+  int o; // o is it's numbered order
+  led LED; // LED is it's pin numbers
+  
+};
+
+//my_light_list holds all leds pins, their colors and order number
+light_list my_lights[number_of_lights];
+
+  my_lights[1].o = 1;
+  my_lights[1].LED = LED1;
+  my_lights[1].n = i;
+  
+  my_lights[2].o = 2;
+  my_lights[2].LED = LED2;
+  my_lights[2].n = i;
+  
+
+
+// how you control all colors and change color at the same time is to not use the large amount of fuction calls I made already.
+// instead you have the color you want to change to, but you increase and decrease all lights in the microsecond fadeing at the same time.
+// you can't use waht I made above so a lot of double of the same code is used here, but it's the different purpose that makes it stand out.
+// also this fuction all one color was made to be recursive on purpose.
+
+
+  switch (new_color){
+  // the lights random color
+  case 1:
+  // all to red
+
+
+  fade_in_red(LED1);
+  fade_in_red(LED2);
+  delay(hold_time);
+  fade_out_red(LED1);
+  fade_out_red(LED2);
+
+
+  
+  break;
+  case 2:
+  // all to green
+
+  fade_in_green(LED1);
+  fade_in_green(LED2);
+  delay(hold_time);
+  fade_out_green(LED1);
+  fade_out_green(LED2);
+
+
+
+  
+  break;
+  case 3:
+  // all to blue
+
+  fade_in_blue(LED1);
+  fade_in_blue(LED2);
+  delay(hold_time);
+  fade_out_blue(LED1);
+  fade_out_blue(LED2);
+
+
+  
+  break;
+  case 4:
+  //all to purple
+  
+  fade_in_purple(LED1);
+  fade_in_purple(LED2);
+  delay(hold_time);
+  fade_out_purple(LED1);
+  fade_out_purple(LED2);
+  
+
+ 
+  
+  break;
+  case 5:
+  // all to yellow
+
+  fade_in_yellow(LED1);
+  fade_in_yellow(LED2);
+  delay(hold_time);
+  fade_out_yellow(LED1);
+  fade_out_yellow(LED2);
+
+
+
+  
+  break;
+  case 6:
+  //all to cyan
+
+  fade_in_cyan(LED1);
+  fade_in_cyan(LED2);
+  delay(hold_time);
+  fade_out_cyan(LED1);
+  fade_out_cyan(LED2);
+
+  
+  break;
+
+  
+  }// case block for all onecolor 
+  
+
+  
+
+
+
+return (new_color);
+//------------------------------------------------------------------------------------------------------------------------------------------all one color
+
+  
+}// end for all one color
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//---------------------------------------------------------------------------------------------------------------------------all one color
+int all_one_color(int i)
+{
+
+  int old_color = i; //old color
+  int new_color = floor(random(1,7)); // color randomized;
+
+  if(old_color == new_color)
+  {
+    while(old_color == new_color)
+    {
+      new_color = floor(random(1,7));
+    }
+  }
+  
+  // I want this function to be a superclass for functions to follow. where all leds are faded in and out from here
+  // struct for the number of lights , n is the color it was randomized, LED is it's LED pins
+struct light_list{
+  int n; // n is the current color for the light
+  int o; // o is it's numbered order
+  led LED; // LED is it's pin numbers
+  
+};
+
+//my_light_list holds all leds pins, their colors and order number
+light_list my_lights[number_of_lights];
+
+  my_lights[1].o = 1;
+  my_lights[1].LED = LED1;
+  my_lights[1].n = i;
+  
+  my_lights[2].o = 2;
+  my_lights[2].LED = LED2;
+  my_lights[2].n = i;
+  
+
+
+// how you control all colors and change color at the same time is to not use the large amount of fuction calls I made already.
+// instead you have the color you want to change to, but you increase and decrease all lights in the microsecond fadeing at the same time.
+// you can't use waht I made above so a lot of double of the same code is used here, but it's the different purpose that makes it stand out.
+// also this fuction all one color was made to be recursive on purpose.
+
+
+
+
+
+
+
+switch (old_color){
+  // the lights random color
+  case 1:
+  // all to red
+
+
+
+
+    // fade 
+    for (int fadeValue = 0 ; fadeValue <= 255; fadeValue += 1) {
+
+    // ----------increaseing a color desired
+
+    for(int y = 1;y <= number_of_lights; y++)
+    {
+    
+    
+    digitalWrite(my_lights[y].LED.b, LOW);
+   
+    digitalWrite(my_lights[y].LED.g, LOW);
+
+    delayMicroseconds(floor(fadeValue * fade_in_dim) * delay_multi);
+    
+    
+    
+    
+    digitalWrite(my_lights[y].LED.r, HIGH);
+    
+    
+    delayMicroseconds((mirco_seconds - floor(fadeValue * fade_in_dim)) * delay_multi);
+    // ----------increaseing a color desired
+    }
+   
+
+    }
+    
+  //after loop end to turn fully on ending light color
+  for(int y = 1;y <= number_of_lights; y++)
+    {
+  
+  
+   digitalWrite(my_lights[y].LED.g, LOW);
+   digitalWrite(my_lights[y].LED.r, HIGH);
+   digitalWrite(my_lights[y].LED.b, LOW);
+    }
+
+
+
+  
+
+
+  
+  break;
+  case 2:
+  // all to green
+
+
+
+
+    // fade 
+    for (int fadeValue = 0 ; fadeValue <= 255; fadeValue += 1) {
+
+    // ----------increaseing a color desired
+
+    for(int y = 1;y <= number_of_lights; y++)
+    {
+    
+    
+    digitalWrite(my_lights[y].LED.b, LOW);
+   
+    digitalWrite(my_lights[y].LED.r, LOW);
+
+    delayMicroseconds(floor(fadeValue * fade_in_dim) * delay_multi);
+    
+    
+    
+    
+    digitalWrite(my_lights[y].LED.g, HIGH);
+    
+    
+    delayMicroseconds((mirco_seconds - floor(fadeValue * fade_in_dim)) * delay_multi);
+    // ----------increaseing a color desired
+    }
+   
+
+    }
+    
+  //after loop end to turn fully on ending light color
+  for(int y = 1;y <= number_of_lights; y++)
+    {
+  
+  
+   digitalWrite(my_lights[y].LED.r, LOW);
+   digitalWrite(my_lights[y].LED.g, HIGH);
+   digitalWrite(my_lights[y].LED.b, LOW);
+    }
+
+
+
+
+
+  
+  break;
+  case 3:
+  // all to blue
+
+
+
+
+    // fade 
+    for (int fadeValue = 0 ; fadeValue <= 255; fadeValue += 1) {
+
+    // ----------increaseing a color desired
+
+    for(int y = 1;y <= number_of_lights; y++)
+    {
+    
+    
+    digitalWrite(my_lights[y].LED.r, LOW);
+   
+    digitalWrite(my_lights[y].LED.g, LOW);
+
+    delayMicroseconds(floor(fadeValue * fade_in_dim) * delay_multi);
+    
+    
+    
+    
+    digitalWrite(my_lights[y].LED.b, HIGH);
+    
+    
+    delayMicroseconds((mirco_seconds - floor(fadeValue * fade_in_dim)) * delay_multi);
+    // ----------increaseing a color desired
+    }
+   
+
+    }
+    
+  //after loop end to turn fully on ending light color
+  for(int y = 1;y <= number_of_lights; y++)
+    {
+  
+  
+   digitalWrite(my_lights[y].LED.g, LOW);
+   digitalWrite(my_lights[y].LED.b, HIGH);
+   digitalWrite(my_lights[y].LED.r, LOW);
+    }
+
+
+ 
+  
+  break;
+  case 4:
+  //all to purple
+
+  
+
+
+
+    // fade 
+    for (int fadeValue = 0 ; fadeValue <= 255; fadeValue += 1) {
+
+    // ----------increaseing a color desired
+
+    for(int y = 1;y <= number_of_lights; y++)
+    {
+    
+    
+    
+   
+    digitalWrite(my_lights[y].LED.g, LOW);
+
+    delayMicroseconds(floor(fadeValue * fade_in_dim) * delay_multi);
+    
+    
+    
+    digitalWrite(my_lights[y].LED.b, HIGH);
+    digitalWrite(my_lights[y].LED.r, HIGH);
+    
+    
+    delayMicroseconds((mirco_seconds - floor(fadeValue * fade_in_dim)) * delay_multi);
+    // ----------increaseing a color desired
+    }
+   
+
+    }
+    
+  //after loop end to turn fully on ending light color
+  for(int y = 1;y <= number_of_lights; y++)
+    {
+  
+  
+   digitalWrite(my_lights[y].LED.g, LOW);
+   digitalWrite(my_lights[y].LED.r, HIGH);
+   digitalWrite(my_lights[y].LED.b, HIGH);
+    }
+
+ 
+
+  
+  break;
+  case 5:
+  // all to yellow
+
+
+
+
+    // fade 
+    for (int fadeValue = 0 ; fadeValue <= 255; fadeValue += 1) {
+
+    // ----------increaseing a color desired
+
+    for(int y = 1;y <= number_of_lights; y++)
+    {
+    
+    
+    
+   
+    digitalWrite(my_lights[y].LED.b, LOW);
+
+    delayMicroseconds(floor(fadeValue * fade_in_dim) * delay_multi);
+    
+    
+    
+    digitalWrite(my_lights[y].LED.g, HIGH);
+    digitalWrite(my_lights[y].LED.r, HIGH);
+    
+    
+    delayMicroseconds((mirco_seconds - floor(fadeValue * fade_in_dim)) * delay_multi);
+    // ----------increaseing a color desired
+    }
+   
+
+    }
+    
+  //after loop end to turn fully on ending light color
+  for(int y = 1;y <= number_of_lights; y++)
+    {
+  
+  
+   digitalWrite(my_lights[y].LED.b, LOW);
+   digitalWrite(my_lights[y].LED.r, HIGH);
+   digitalWrite(my_lights[y].LED.g, HIGH);
+    }
+
+
+
+
+
+
+
+  
+  break;
+  case 6:
+  //all to cyan
+
+  
+
+    // fade 
+    for (int fadeValue = 0 ; fadeValue <= 255; fadeValue += 1) {
+
+    // ----------increaseing a color desired
+
+    for(int y = 1;y <= number_of_lights; y++)
+    {
+    
+    
+    
+   
+    digitalWrite(my_lights[y].LED.r, LOW);
+
+    delayMicroseconds(floor(fadeValue * fade_in_dim) * delay_multi);
+    
+    
+    
+    digitalWrite(my_lights[y].LED.b, HIGH);
+    digitalWrite(my_lights[y].LED.g, HIGH);
+    
+    
+    delayMicroseconds((mirco_seconds - floor(fadeValue * fade_in_dim)) * delay_multi);
+    // ----------increaseing a color desired
+    }
+   
+
+    }
+    
+  //after loop end to turn fully on ending light color
+  for(int y = 1;y <= number_of_lights; y++)
+    {
+  
+  
+   digitalWrite(my_lights[y].LED.r, LOW);
+   digitalWrite(my_lights[y].LED.g, HIGH);
+   digitalWrite(my_lights[y].LED.b, HIGH);
+    }
+
+
+ 
+
+  
+  break;
+
+  
+  }// case block for all onecolor 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// for loop runs for each light, to the max number of lights
+// the first case block fades out the old color and then the second case block fades in the new color
+// for loop increments at the end, so each light one at a time fades out and then in to new color
+// only two case blocks run at run time, however it is setup like a case block of case blocks
+// this will allow me to control exactly what transistion is happening and how exactly to fade into a new color, of any two colors, one at a time.
+for(int y = 1; y <= number_of_lights; y++)
+{
+
+
+
+  
+ // case block ffor only fading in new color
+  switch (old_color){
+  // the lights random color
+  case 1:
+  // -------------------------------------------fading out red
+
+  
+
+    // case block for only fading in new color
+      switch (new_color){
+      // the lights random color
+      case 1:
+      // fade in red
+    
+    
+    red_to_red(my_lights[y].LED);
+    
+      
+      break;
+      case 2:
+      // fade in green
+    
+    red_to_green(my_lights[y].LED);
+    
+      
+      break;
+      case 3:
+      // fade in  blue
+    
+    
+    
+    
+    
+    red_to_blue(my_lights[y].LED);
+    
+      
+    
+      
+      break;
+      case 4:
+      //fade in purple
+
+  red_to_purple(my_lights[y].LED);
+
+ 
+
+  
+      break;
+      case 5:
+      // fade in yellow
+
+
+    red_to_yellow(my_lights[y].LED);
+
+
+
+
+  
+      break;
+      case 6:
+      //fade in cyan
+
+  
+      red_to_cyan(my_lights[y].LED);
+ 
+
+
+  
+      break;
+
+  
+      }// case block for ------------------------------ fading out red 
+  
+
+
+  
+  break;
+  case 2:
+  // ------------------------------------------------fading out green
+
+
+
+    // case block for only fading in new color
+      switch (new_color){
+      // the lights random color
+      case 1:
+      // fade in red
+    
+      green_to_red(my_lights[y].LED);
+    
+    
+      
+      break;
+      case 2:
+      // fade in green
+    
+      green_to_green(my_lights[y].LED);
+    
+    
+    
+      
+      break;
+      case 3:
+      // fade in  blue
+    
+    
+    
+    green_to_blue(my_lights[y].LED);
+    
+    
+    
+    
+    
+      
+    
+      
+      break;
+      case 4:
+      //fade in purple
+
+      green_to_purple(my_lights[y].LED);
+
+ 
+
+  
+      break;
+      case 5:
+      // fade in yellow
+
+
+      green_to_yellow(my_lights[y].LED);
+
+
+
+
+  
+      break;
+      case 6:
+      //fade in cyan
+
+  
+
+      green_to_cyan(my_lights[y].LED);
+
+
+  
+      break;
+
+  
+      }// ------------------------------------case block for fading out green 
+  
+
+  
+  break;
+  case 3:
+  // ------------------------------------------------------------fading out blue
+
+
+
+ 
+
+    // case block for only fading in new color
+      switch (new_color){
+      // the lights random color
+      case 1:
+      // fade in red
+    
+      blue_to_red(my_lights[y].LED);
+    
+    
+      
+      break;
+      case 2:
+      // fade in green
+    
+       blue_to_green(my_lights[y].LED);
+    
+      
+      break;
+      case 3:
+      // fade in  blue
+    
+    
+      blue_to_blue(my_lights[y].LED);
+    
+    
+    
+    
+      
+    
+      
+      break;
+      case 4:
+      //fade in purple
+
+      blue_to_purple(my_lights[y].LED);
+
+ 
+
+  
+      break;
+      case 5:
+      // fade in yellow
+
+
+      blue_to_yellow(my_lights[y].LED);
+
+
+
+
+  
+      break;
+      case 6:
+      //fade in cyan
+
+      blue_to_cyan(my_lights[y].LED);
+
+ 
+
+
+  
+      break;
+
+  
+      }// -------------------------------------------------------case block for fading out blue 
+  
+
+
+
+  
+
+  
+  break;
+  case 4:
+  //----------------------------------------------------------fading out  purple
+
+  
+
+    // case block for only fading in new color
+      switch (new_color){
+      // the lights random color
+      case 1:
+      // fade in red
+    
+      purple_to_red(my_lights[y].LED);
+    
+    
+      
+      break;
+      case 2:
+      // fade in green
+    
+    purple_to_green(my_lights[y].LED);
+    
+      
+      break;
+      case 3:
+      // fade in  blue
+    
+      purple_to_blue(my_lights[y].LED);
+    
+    
+    
+    
+    
+      
+    
+      
+      break;
+      case 4:
+      //fade in purple
+
+  
+      purple_to_purple(my_lights[y].LED);
+ 
+
+  
+      break;
+      case 5:
+      // fade in yellow
+
+
+      purple_to_yellow(my_lights[y].LED);
+
+
+
+
+  
+      break;
+      case 6:
+      //fade in cyan
+
+  
+
+      purple_to_cyan(my_lights[y].LED);
+
+
+  
+      break;
+
+  
+      }//--------------------------------------------------------- case block for fading out purple 
+  
+
+ 
+
+  
+  break;
+  case 5:
+  // --------------------------------------------------------------fading out yellow
+
+
+
+
+    // case block for only fading in new color
+      switch (new_color){
+      // the lights random color
+      case 1:
+      // fade in red
+    
+      yellow_to_red(my_lights[y].LED);
+    
+    
+      
+      break;
+      case 2:
+      // fade in green
+
+      yellow_to_green(my_lights[y].LED);
+    
+    
+      
+      break;
+      case 3:
+      // fade in  blue
+    
+    
+      yellow_to_blue(my_lights[y].LED);
+    
+    
+    
+    
+      
+    
+      
+      break;
+      case 4:
+      //fade in purple
+
+      yellow_to_purple(my_lights[y].LED);
+
+ 
+
+  
+      break;
+      case 5:
+      // fade in yellow
+
+      yellow_to_yellow(my_lights[y].LED);
+
+
+
+
+
+  
+      break;
+      case 6:
+      //fade in cyan
+
+  
+      yellow_to_cyan(my_lights[y].LED);
+ 
+
+
+  
+      break;
+
+  
+      }// case block for fading out yellow 
+  
+
+
+
+
+  
+  break;
+  case 6:
+  //------------------------------------------------------------fading out cyan
+
+  
+
+
+    // case block for only fading in new color
+      switch (new_color){
+      // the lights random color
+      case 1:
+      // fade in red
+    
+      cyan_to_red(my_lights[y].LED);
+    
+    
+      
+      break;
+      case 2:
+      // fade in green
+
+      cyan_to_green(my_lights[y].LED);
+    
+    
+      
+      break;
+      case 3:
+      // fade in  blue
+    
+      cyan_to_blue(my_lights[y].LED);
+    
+    
+    
+    
+    
+      
+    
+      
+      break;
+      case 4:
+      //fade in purple
+
+      cyan_to_purple(my_lights[y].LED);
+  
+
+ 
+
+  
+      break;
+      case 5:
+      // fade in yellow
+
+      cyan_to_yellow(my_lights[y].LED);
+
+
+
+
+
+  
+      break;
+      case 6:
+      //fade in cyan
+
+  
+      cyan_to_cyan(my_lights[y].LED);
+ 
+
+
+  
+      break;
+
+  
+      }// --------------------------------------------------------------case block for fading out cyan
+  
+ 
+
+
+  
+  break;
+
+  
+  }// case block for  fading out one color at a time 
+
+
+
+
+
+
+
+} // for loop for fade out then in new color
+
+
+delay(hold_time);
+
+return (new_color);
+//------------------------------------------------------------------------------------------------------------------------------------------all one color fade
+
+  
+}// end for all one color
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void check_buttons(){
 
@@ -2406,7 +3460,7 @@ pinMode(button_change_hold_time, INPUT);
   pinMode(LED2.g, OUTPUT);
   pinMode(LED2.b, OUTPUT);
 
-
+  
   
 
 }
@@ -2480,7 +3534,7 @@ void loop()
   }
 
 Serial.println();
-Serial.println(button_hold_state);
+Serial.println(delay_multi);
 Serial.println(hold_time);
 Serial.println();
 
@@ -2488,7 +3542,7 @@ Serial.println();
   button_hold_state = false;
 
 
-
+//----------------- function calls to lighting functions
 
 
   
@@ -2496,9 +3550,13 @@ Serial.println();
   //different_colors();
   //chain();
 
-  chain_fade_to_colors();
+  //chain_fade_to_colors();
 
+  
+  r = all_one_color(r);
 
+  //r = all_one_color_fade(r);
+  
   /*
 
   fade_in_red(LED1);
@@ -2509,5 +3567,15 @@ Serial.println();
 
   fade_out_cyan(LED1);
 */
+
+
+
+
+
+
+
+//----------------- function calls to lighting functions
+
+
 
 }
