@@ -29,7 +29,7 @@ EDIT 1 7/22/21
 
 It's been two months or so, and I spent more time on this project! I created the function called all_one_color() function to control all lights and fade all lights into a new color one light at a time. I'm really happy with this one. It is an recursive function that uses the last color as it's input and a if statment to make sure it's two different colors. 
 
-I also added a function called all_on_color_fade() which will fade out the colors and then fade in the new color instead of a smooth transistion.
+I also added a function called all_on_color_fade() which will fade out the colors and then fade in the new color instead of a smooth fade.
 
 I have a lot of work to do to make this program more efficent, the all_one_color() function almost can run with any amount of lights. there are a few statments I need to address. There is a lot of code that is dependent on declareing the number of led lights there are, and I want to slowly phase that out.
 
