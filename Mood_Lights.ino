@@ -1,4 +1,5 @@
 
+
 //Matthew Domenick 
 //back of tv lights to make it look cool
 //left open ended such that you can fit your needs
@@ -10,7 +11,8 @@
 
 
 
-#include<Metro.h>
+//#include<Metro.h>
+//#include<Metro.h>
 
 
 int button_change_delay_multi = 2; //PIN BUTTON FOR DELAY CONTROL
@@ -36,7 +38,7 @@ float fade_in_dim = 1;
 // 50 is  gentle lighting    0,1, 2, 3, 4, 5
 static int delay_array [] = {1,5,10,20,35,50};
 
-int delay_multi =  delay_array[4]; // THE INITAL STATE IS SET HERE
+int delay_multi =  delay_array[1]; // THE INITAL STATE IS SET HERE
 
 
 //controls the milliseconds used for fade out loops
@@ -51,7 +53,7 @@ int mirco_seconds = 255;
 //                         0,     1,   2,   3,     4,   5,
 const int hold_array [] = {500, 1000, 2000, 3000, 4000, 8000}; 
 
-int hold_time = hold_array[2];
+int hold_time = hold_array[1];
 
 
 // STRUCT USED TO KEEP TRACK OF LED PINS
@@ -86,7 +88,7 @@ led LED2;
 
 
 // used for all one color()
-int r = 1;
+int r = 3;
 
 
 // fades out all led colors
@@ -140,7 +142,7 @@ void hold_red(led LED)
     // sets the value (range from 0 to 255):
 
     
-    digitalWrite(LED.r, LOW);
+    //digitalWrite(LED.r, LOW);
     delayMicroseconds(500);
     digitalWrite(LED.r, HIGH);
     delayMicroseconds(500);
@@ -206,7 +208,7 @@ void hold_blue(led LED)
     // sets the value (range from 0 to 255):
 
     
-    digitalWrite(LED.b, LOW);
+    //digitalWrite(LED.b, LOW);
     delayMicroseconds(500);
     digitalWrite(LED.b, HIGH);
     delayMicroseconds(500);
@@ -268,7 +270,7 @@ void hold_green(led LED)
     // sets the value (range from 0 to 255):
 
     
-    digitalWrite(LED.g, LOW);
+    //digitalWrite(LED.g, LOW);
     delayMicroseconds(500);
     digitalWrite(LED.g, HIGH);
     delayMicroseconds(500);
@@ -328,8 +330,8 @@ void hold_purple(led LED)
     // sets the value (range from 0 to 255):
 
     
-    digitalWrite(LED.b, LOW);
-    digitalWrite(LED.r, LOW);
+    //digitalWrite(LED.b, LOW);
+    //digitalWrite(LED.r, LOW);
     delayMicroseconds(500);
     digitalWrite(LED.r, HIGH);
     digitalWrite(LED.b, HIGH);
@@ -393,8 +395,8 @@ void hold_yellow(led LED)
     // sets the value (range from 0 to 255):
 
     
-    digitalWrite(LED.g, LOW);
-    digitalWrite(LED.r, LOW);
+    //digitalWrite(LED.g, LOW);
+    //digitalWrite(LED.r, LOW);
     delayMicroseconds(500);
     digitalWrite(LED.r, HIGH);
     digitalWrite(LED.g, HIGH);
@@ -460,8 +462,8 @@ void hold_cyan(led LED)
     // sets the value (range from 0 to 255):
 
     
-    digitalWrite(LED.b, LOW);
-    digitalWrite(LED.g, LOW);
+    //digitalWrite(LED.b, LOW);
+    //digitalWrite(LED.g, LOW);
     delayMicroseconds(500);
     digitalWrite(LED.g, HIGH);
     digitalWrite(LED.b, HIGH);
@@ -2481,10 +2483,7 @@ int all_one_color(int i)
 
   if(old_color == new_color)
   {
-    while(old_color == new_color)
-    {
-      new_color = floor(random(1,7));
-    }
+    all_one_color(new_color);
   }
   
   // I want this function to be a superclass for functions to follow. where all leds are faded in and out from here
@@ -2511,7 +2510,7 @@ light_list my_lights[number_of_lights];
 
 // how you control all colors and change color at the same time is to not use the large amount of fuction calls I made already.
 // instead you have the color you want to change to, but you increase and decrease all lights in the microsecond fadeing at the same time.
-// you can't use waht I made above so a lot of double of the same code is used here, but it's the different purpose that makes it stand out.
+// you can't use wait, I made above so a lot of double of the same code is used here, but it's the different purpose that makes it stand out.
 // also this fuction all one color was made to be recursive on purpose.
 
 
@@ -2842,7 +2841,7 @@ switch (old_color){
 // the first case block fades out the old color and then the second case block fades in the new color
 // for loop increments at the end, so each light one at a time fades out and then in to new color
 // only two case blocks run at run time, however it is setup like a case block of case blocks
-// this will allow me to control exactly what transistion is happening and how exactly to fade into a new color, of any two colors, one at a time.
+// this will allow me to control exactly what order of change is happening and how exactly to fade into a new color, of any two colors, one at a time.
 for(int y = 1; y <= number_of_lights; y++)
 {
 
@@ -3344,9 +3343,69 @@ return (new_color);
 
 
 
+//---------------------------------------------------------rainbow, isn't working as I want it to be
+//set order of color changing
+void rainbow()
+{
+
+//red, yellow, green, cyan, blue, purple
+//1       4       2     5       3   6
+int color_rainbow[] = {1,4,2,5,3,6};
+
+struct light_list{
+  int n; // n is the current color for the light
+  int o; // o is it's numbered order
+  led LED; // LED is it's pin numbers
+  
+};
+
+//my_light_list holds all leds pins, their colors and order number
+// starts off with all colors being red
+light_list my_lights[number_of_lights];
+
+  my_lights[1].o = 1;
+  my_lights[1].LED = LED1;
+  my_lights[1].n = color_rainbow[1];
+  //fade_in_red(my_lights[1].LED);
+
+  
+  
+  my_lights[2].o = 2;
+  my_lights[2].LED = LED2;
+  my_lights[2].n = color_rainbow[2];
+  //fade_in_red(my_lights[2].LED);
+  
 
 
 
+for(int y = 1; y <= number_of_lights ;y++)
+{//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  purple_to_red(my_lights[y].LED);
+  hold_red(my_lights[y].LED);
+  red_to_yellow(my_lights[y].LED);
+  hold_yellow(my_lights[y].LED);
+  yellow_to_green(my_lights[y].LED);
+  hold_green(my_lights[y].LED);
+  green_to_cyan(my_lights[y].LED);
+  hold_cyan(my_lights[y].LED);
+  cyan_to_blue(my_lights[y].LED);
+  hold_blue(my_lights[y].LED);
+  blue_to_purple(my_lights[y].LED);
+  hold_purple(my_lights[y].LED);
+  fade_out(my_lights[y].LED);
+
+
+
+
+  
+  
+}//%%%%%%%%%%%%%%%%%%%%
+
+
+
+  
+}//---------------------------------------------------------rainbow
 
 
 
@@ -3549,20 +3608,24 @@ Serial.println();
 //----------------- function calls to lighting functions
 
 
-  
+  //------------------------------------working functions
  
   //different_colors();
   //chain();
 
   //chain_fade_to_colors();
 
+  //r = all_one_color_fade(r);
   
   r = all_one_color(r);
 
-  //r = all_one_color_fade(r);
+  //rainbow();
   
-  /*
+  
+  //----------------------------------working functions
 
+
+/*
   fade_in_red(LED1);
   delay(2000);
 
@@ -3570,13 +3633,17 @@ Serial.println();
   delay(2000);
 
   fade_out_cyan(LED1);
+
+
+
+
+
+
+fade_in_green(LED1);
+hold_green(LED1);
+fade_out_green(LED1);
+
 */
-
-
-
-
-
-
 
 //----------------- function calls to lighting functions
 
