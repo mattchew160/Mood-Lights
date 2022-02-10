@@ -3,6 +3,10 @@
 //back of tv lights to make it look cool
 //left open ended such that you can fit your needs
 
+//Keybindings for VS upload to arduino
+//Arduino: Upload Alt + Cmd + U or Alt + Ctrl + U
+//Arduino: Verify Alt + Cmd + R or Alt + Ctrl + R
+//Arduino: Rebuild IntelliSense Configuration Alt + Cmd + I or Alt + Ctrl + I
 
 
 
